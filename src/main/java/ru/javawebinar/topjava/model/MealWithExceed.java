@@ -45,7 +45,6 @@ public class MealWithExceed {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
-
         this.calories = calories;
         this.exceed = exceed;
     }

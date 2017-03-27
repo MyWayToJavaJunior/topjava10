@@ -64,16 +64,20 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        String id = req.getParameter("id");
         Meal meal = new Meal(
                 LocalDateTime.parse(req.getParameter("dateTime")),
                 req.getParameter("description"),
                 Integer.valueOf(req.getParameter("calories")));
-        String id = req.getParameter("id");
+
         if(id == null || id.isEmpty()){
             memory.addMeal(meal);
         } else{
+            meal.setId(Integer.valueOf(id));
             memory.updateMeal(Integer.valueOf(id), meal);
         }
+
         req.setAttribute("mealsList", MealsUtil.getMealWithExceeded(memory.getAllMeal(), 2000));
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
     }

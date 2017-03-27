@@ -50,7 +50,7 @@ public class MealDao {
     }
 
     //return new id for new Meal
-    public static int getNewId(){return count.incrementAndGet();}
+    public  int getNewId(){return count.incrementAndGet();}
 
 
 }
