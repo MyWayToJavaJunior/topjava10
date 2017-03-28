@@ -10,7 +10,6 @@
         <table border=1>
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Date Time</th>
                     <th>Description</th>
                     <th>Calories</th>
@@ -21,7 +20,6 @@
                 <c:forEach items="${mealsList}" var="meal">
                     <c:set var="dateTime" value="${meal.dateTime}" />
                     <tr ${meal.exceed ?  'style="color: red"' : 'style="color: green"'}>
-                        <td><c:out value="${meal.id}"/></td>
                         <td>
                             <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate"/>
                             <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm"/>

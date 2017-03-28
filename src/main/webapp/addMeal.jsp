@@ -14,7 +14,7 @@
             description:<input type="text" name="description"
                                value="<c:out value="${meals.description}"/>"/><br/>
             calories:<input type="number" name="calories"
-                            value="<c:out value="${meals.description}"/>"/><br/>
+                            value="<c:out value="${meals.calories}"/>"/><br/>
             <input type="submit" value="submit"/>
         </form>
     </body>
