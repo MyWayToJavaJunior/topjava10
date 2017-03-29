@@ -42,6 +42,13 @@ public class MealDaoImpl implements MealDao{
             mealInMemory.put(m.getId(), m);
         }
     }
+    /*public void addMeal(Meal m){
+        if (m.getId() == 0){
+            m.setId(getNewId());
+        } else{
+            mealInMemory.put(m.getId(), m);mealInMemory.put(m.getId(),m);
+        }
+    }*/
 
     //update Meal, only for method update in MealServlet
     public void updateMeal(int id, Meal m){
