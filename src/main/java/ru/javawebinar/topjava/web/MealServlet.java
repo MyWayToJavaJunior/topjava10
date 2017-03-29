@@ -28,9 +28,10 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOG.debug("redirect to meals.jsp");
 
-        List<MealWithExceed> mealsList = MealsUtil.getFilteredWithExceeded(memory.getAllMeal(), LocalTime.MIN, LocalTime.MAX, 2000);
+
         String action = req.getParameter("action");
        if (action == null){
+           List<MealWithExceed> mealsList = MealsUtil.getFilteredWithExceeded(memory.getAllMeal(), LocalTime.MIN, LocalTime.MAX, 2000);
            req.setAttribute("mealsList", mealsList);
            req.getRequestDispatcher("/meals.jsp").forward(req, resp);
        }
