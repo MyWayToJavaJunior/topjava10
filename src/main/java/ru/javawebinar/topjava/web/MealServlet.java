@@ -13,13 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-/**
- * Created by Alex on 23.03.2017.
- */
+
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
     private MealDao memory = MealDaoImpl.getInstance();
@@ -29,7 +28,7 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOG.debug("redirect to meals.jsp");
 
-        List<MealWithExceed> mealsList = MealsUtil.getMealWithExceeded(memory.getAllMeal(), 2000);
+        List<MealWithExceed> mealsList = MealsUtil.getFilteredWithExceeded(memory.getAllMeal(), LocalTime.MIN, LocalTime.MAX, 2000);
         String action = req.getParameter("action");
        if (action == null){
            req.setAttribute("mealsList", mealsList);
@@ -44,7 +43,7 @@ public class MealServlet extends HttpServlet {
        else if (action.equalsIgnoreCase("delete")){
             int id = Integer.parseInt(req.getParameter("id"));
             memory.deleteMeal(id);
-            req.setAttribute("mealsList", MealsUtil.getMealWithExceeded(memory.getAllMeal(), 2000));
+            req.setAttribute("mealsList", MealsUtil.getFilteredWithExceeded(memory.getAllMeal(), LocalTime.MIN, LocalTime.MAX, 2000));
            req.getRequestDispatcher("/meals.jsp").forward(req, resp);
         }
         else{
@@ -68,7 +67,7 @@ public class MealServlet extends HttpServlet {
             memory.updateMeal(Integer.valueOf(id), meal);
         }
 
-        req.setAttribute("mealsList", MealsUtil.getMealWithExceeded(memory.getAllMeal(), 2000));
+        req.setAttribute("mealsList", MealsUtil.getFilteredWithExceeded(memory.getAllMeal(), LocalTime.MIN, LocalTime.MAX, 2000));
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
     }
 }

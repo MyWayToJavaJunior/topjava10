@@ -77,10 +77,8 @@ public class MealsUtil {
                 .map(meal -> createWithExceed(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
-
-    public static List<MealWithExceed> getMealWithExceeded(Collection<Meal> m, int calories){
+    /*public static List<MealWithExceed> getMealWithExceeded(Collection<Meal> m, int calories){
         return getFilteredWithExceeded(m, LocalTime.MIN, LocalTime.MAX, calories);
-    }
-
+    }*/
 
 }
