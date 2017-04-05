@@ -1,7 +1,7 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.to.MealWithExceed;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * GKislin
@@ -25,6 +26,8 @@ public class MealsUtil {
     );
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
+    public static final int USER_ID = 1;
+    public static final int ADMIN_ID = 2;
 
     public static void main(String[] args) {
         List<MealWithExceed> mealsWithExceeded = getFilteredWithExceeded(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
@@ -66,5 +69,16 @@ public class MealsUtil {
 
     public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K,V>
+    sortByValue(Map<K,V> map){
+        Map<K,V> result = new LinkedHashMap<>();
+        Stream<Map.Entry<K,V>> st = map.entrySet().stream();
+
+        st.sorted(Comparator.comparing(e -> e.getValue()))
+                .forEach(e ->result.put(e.getKey(),e.getValue()));
+
+        return result;
     }
 }

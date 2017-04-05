@@ -7,6 +7,8 @@ import ru.javawebinar.topjava.model.User;
 @Controller
 public class ProfileRestController extends AbstractUserController {
 
+
+
     public User get() {
         return super.get(AuthorizedUser.id());
     }
