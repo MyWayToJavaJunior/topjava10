@@ -38,3 +38,5 @@ CREATE TABLE meals
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 
 );
+
+CREATE INDEX CONCURRENTLY meals_id_index ON meals (id);
