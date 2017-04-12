@@ -11,15 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.util.DbPopulator;
-import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.regex.Matcher;
 
-import static org.junit.Assert.*;
+import java.time.Month;
+import java.util.Collection;
+
 
 import static ru.javawebinar.topjava.MealTestData.*;
 /**
@@ -47,39 +45,24 @@ public class MealServiceTest {
     }
 
     @Test
-    public void save() throws Exception {
-        int userId = 100000;
-        Meal newMeal = new Meal(1, LocalDateTime.now(), "test meal", 1000);
-        Meal created = service.save(newMeal, userId);
-        newMeal.setId(created.getId());
-        //MATCHER.assertCollectionEquals(Arrays.asList());
-
-    }
-
-    @Test
-    public void getBetweenDates() throws Exception {
-
-    }
-
-    @Test
     public void getBetweenDateTimes() throws Exception {
-
-    }
-
-    @Test
-    public void getAll() throws Exception {
         int userId = 100000;
-        Collection<Meal> all = service.getAll(userId);
-        MATCHER.assertCollectionEquals(new InMemoryMealRepositoryImpl().getAll(userId), all);
+        LocalDateTime startTime = LocalDateTime.of(2015, Month.MAY, 30, 01, 0);
+        LocalDateTime endTime = LocalDateTime.of(2015, Month.MAY, 30, 23, 0);
+        InMemoryMealRepositoryImpl testFilter = new InMemoryMealRepositoryImpl();
+        MATCHER.assertCollectionEquals(testFilter.getBetween(startTime, endTime, userId), service.getBetweenDateTimes(startTime, endTime, userId));
     }
 
     @Test
     public void update() throws Exception {
-
+        int userId = 100000;
+        Meal updated = new Meal(LocalDateTime.now(), "test meal", 1000);
+        updated.setCalories(100);
+        updated.setDescription("updated");
+        service.update(updated, userId);
+        MATCHER.assertEquals(updated, service.get(updated.getId(),userId));
     }
 
-
-    //Test is work
 
     @Test(expected = NotFoundException.class)
     public void testNotFoundDelete() throws Exception {
@@ -94,5 +77,23 @@ public class MealServiceTest {
     @Test(expected = NotFoundException.class)
     public void deleteAlienMeal() throws Exception {
         service.delete(1,10001);
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        int userId = 100000;
+        Collection<Meal> all = service.getAll(userId);
+        MATCHER.assertCollectionEquals(new InMemoryMealRepositoryImpl().getAll(userId), all);
+    }
+
+
+
+    @Test
+    public void save() throws Exception {
+        int userId = 100000;
+        Meal newMeal = new Meal( LocalDateTime.now(), "test meal", 1000);
+        Meal created = service.save(newMeal, userId);
+        newMeal.setId(created.getId());
+        MATCHER.assertEquals(newMeal, service.get(newMeal.getId(),userId));
     }
 }

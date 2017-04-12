@@ -14,10 +14,8 @@ import ru.javawebinar.topjava.to.MealWithExceed;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
+
 
 @Repository
 public class JdbcMealRepositoryImpl implements MealRepository {
@@ -54,7 +52,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             meal.setId(newKey.intValue());
         } else{
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories " + " WHERE id=:id AND user_id=:userId", map);
+                    "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories  WHERE id=:id AND user_id=:user_id", map);
         }
         return meal;
     }
@@ -74,18 +72,11 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        List<Meal> tmp = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time",ROW_MAPPER, userId);
-        Collections.reverse(tmp);
-        return tmp;
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC",ROW_MAPPER, userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        //List<Meal> tmp = getAll(userId);
-        List<Meal> tmp = jdbcTemplate.query("SELECT * FROM meals WHERE (user_id=?) AND (date_time > ?) AND (date_time < ?) ORDER BY date_time",ROW_MAPPER, userId, startDate, endDate);
-        Collections.reverse(tmp);
-        return tmp;
+        return jdbcTemplate.query("SELECT * FROM meals WHERE (user_id=?) AND (date_time > ?) AND (date_time < ?) ORDER BY date_time DESC",ROW_MAPPER, userId, startDate, endDate);
     }
-
-
 }

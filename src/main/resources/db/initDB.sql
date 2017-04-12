@@ -1,6 +1,6 @@
+DROP TABLE If EXISTS meals;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
-DROP TABLE If EXISTS meals;
 DROP SEQUENCE IF EXISTS global_seq;
 DROP SEQUENCE IF EXISTS global_seq_meal;
 
@@ -39,4 +39,5 @@ CREATE TABLE meals
 
 );
 
-CREATE INDEX CONCURRENTLY meals_id_index ON meals (id);
+CREATE INDEX CONCURRENTLY meals_date_time_index ON meals (date_time);
+CREATE INDEX CONCURRENTLY meals_user_id_index ON meals (user_id);
